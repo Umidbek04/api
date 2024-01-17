@@ -5,7 +5,7 @@ from . import models
 
 
 class PostBase(BaseModel):
- 
+
     title: str
     content: str
     published: bool = True
@@ -39,6 +39,9 @@ class PostOut(BaseModel):
 
     class Config:
         orm = True
+
+# class UpdatedPost(BaseModel):
+
 
 
 

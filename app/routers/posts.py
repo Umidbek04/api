@@ -101,7 +101,7 @@ def delete_post(id:int, db: Session = Depends(get_db), user_id: id = Depends(oau
 
 
 @router.put("/{id}")
-def update_post(id: int, updated_post: schemas.PostMake, db: Session = Depends(get_db), user_id: id = Depends(oauth2.get_current_user)):
+def update_post(id: int, updated_post: schemas.PostBase, db: Session = Depends(get_db), user_id: id = Depends(oauth2.get_current_user)):
     
     post_query = db.query(models.Post).filter(models.Post.id == id)
 
@@ -118,13 +118,12 @@ def update_post(id: int, updated_post: schemas.PostMake, db: Session = Depends(g
 
     db.commit()
     db.refresh(post)
+    db.close()
 
     # return post_query.first()
-    response_post = schemas.PostResponse(
-        id=post_query.first().id,
-        title=post_query.first().title,
-        content=post_query.first().content,
-        published=post_query.first().published,
-        user_id=post_query.first().user_id
-    )
-    return  response_post
+    # response_post = schemas.PostResponse(
+    #     title=post_query.first().title,
+    #     content=post_query.first().content,
+    #     published=post_query.first().published,
+    #     user_id=post_query.first().user_id    )
+    return  post_query.first()
